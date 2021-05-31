@@ -27,6 +27,9 @@ function Homepage() {
     const [status1, updateStatus1] = React.useState("----Add your new coin---");
     const [allow, updateAllow] = React.useState(false);
     const [allow2, updateAllow2] = React.useState(false);
+    var [sum, updatesum] = React.useState(0);
+    var [num, updatenum] = React.useState(0);
+
 
 
 
@@ -63,6 +66,8 @@ function Homepage() {
             .then((res) => {
                 updateCurrent(res);
                 updateAllow2(true);
+                updatesum(0);
+                updatenum(0);
                 // updateRefreshed(true);
                 //  console.log(res."btcinr");
             });
@@ -165,14 +170,21 @@ function Homepage() {
 
 
     function createRows(data) {
+
         const find = data.coin_name;
+        var name;
         var coin;
         var currPrice; var boughtValue; var pnl; var per; var currval;
         console.log(data.coin_name.charAt(data.coin_name.length - 1));
-        if (data.coin_name.charAt(data.coin_name.length - 1) === 'r')
-            var sym = '₹';
-        else
+        if (data.coin_name.charAt(data.coin_name.length - 1) === 'r') {
+            var sym = '₹'; name = find.substring(0, find.length - 3)
+        }
+        else {
+            name = find.substring(0, find.length - 4);
             var sym = '$';
+        }
+
+        name = name.toUpperCase();
 
         if (curr.hasOwnProperty(find)) {
             coin = curr[find];
@@ -187,7 +199,15 @@ function Homepage() {
             pnl = pnl.toFixed(2);
             boughtValue = boughtValue.toFixed(2);
             currval = currval.toFixed(2);
-
+         
+            sum += parseFloat(per);
+            sum = parseFloat(sum);
+            if (typeof (sum) == "number") {
+                sum = sum.toFixed(2); console.log("overall -->  " + sum + " " + num);
+            }
+        
+            num = num + 1;
+            console.log("overall  " + sum + " " + num);
         }
         else {
 
@@ -201,7 +221,7 @@ function Homepage() {
 
         if (pnl < 0) {
             return <tr id="dataRow" style={{ backgroundColor: "red", color: "white" }}>
-                <th>{data.coin_name}</th>
+                <th>{name}</th>
                 <td>{data.date + " " + data.time}</td>
                 <td>{sym}{data.AtValue}</td>
                 <td>{data.volume}</td>
@@ -217,7 +237,7 @@ function Homepage() {
             </tr>;
         } else {
             return <tr id="dataRow" style={{ backgroundColor: "green", color: "white" }}>
-                <th>{data.coin_name}</th>
+                <th>{name}</th>
                 <td>{data.date + " " + data.time}</td>
                 <td>{sym}{data.AtValue}</td>
                 <td>{data.volume}</td>
@@ -338,6 +358,15 @@ function Homepage() {
                     </p>
 
                     <a href="https://www.wazirx.com" target="_blank"> <button class="btn btn-primary" style={{ left: "100px", right: "100px" }}>Go To wazirX</button></a>
+
+                    <h1>Overall G/L</h1>
+                    {
+                    ((sum/ num) < 0) ? <h1 style={{color:"whitesmoke",  textShadow:"2px 2px 8px red",backgroundColor:"grey"}}>{sum / num}%</h1> :
+                     <h1 style={{color:"whitesmoke",  textShadow:"2px 2px 8px green",backgroundColor:"grey"}}>{sum / num}%</h1>
+                     }
+
+
+
 
                 </div>
 

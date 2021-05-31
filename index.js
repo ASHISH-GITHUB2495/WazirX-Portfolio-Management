@@ -18,7 +18,7 @@ var paths = { paths: "Home" };
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-//mongoose.connect('mongodb+srv://<username>:<password>@cluster0.ozrpk.mongodb.net/<dbname>?retryWrites=true&w=majority');
+//mongodb+srv://AshishYadav:<password>@cluster0.ozrpk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 mongoose.connect(process.env.MONGODB_URI || dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
 app.get('/', (req, res) => {
   res.send("<h1>Express is running smooth</h1>");
