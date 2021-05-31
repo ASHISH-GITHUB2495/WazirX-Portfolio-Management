@@ -29,6 +29,7 @@ function Homepage() {
     const [allow2, updateAllow2] = React.useState(false);
     var [sum, updatesum] = React.useState(0);
     var [num, updatenum] = React.useState(0);
+    const[fetcher,updatefetcher] = React.useState("Not Fetched");
 
 
 
@@ -68,6 +69,7 @@ function Homepage() {
                 updateAllow2(true);
                 updatesum(0);
                 updatenum(0);
+                updatefetcher("Fetched");
                 // updateRefreshed(true);
                 //  console.log(res."btcinr");
             });
@@ -116,6 +118,7 @@ function Homepage() {
         if (remainingTime === 0) {
 
             fetchCurrent();
+            updatefetcher("Fetching");
 
             return <div className="timer"><i class="fa fa-globe" style={{ fontSize: "500%", color: "grey" }} aria-hidden="true"></i> <br /> Refreshing...</div>;
         }
@@ -199,15 +202,13 @@ function Homepage() {
             pnl = pnl.toFixed(2);
             boughtValue = boughtValue.toFixed(2);
             currval = currval.toFixed(2);
-         
-            sum += parseFloat(per);
-            sum = parseFloat(sum);
-            if (typeof (sum) == "number") {
-                sum = sum.toFixed(2); console.log("overall -->  " + sum + " " + num);
-            }
-        
             num = num + 1;
-            console.log("overall  " + sum + " " + num);
+
+            sum += parseFloat(per);
+            sum /= num;
+        
+           
+
         }
         else {
 
@@ -359,13 +360,14 @@ function Homepage() {
 
                     <a href="https://www.wazirx.com" target="_blank"> <button class="btn btn-primary" style={{ left: "100px", right: "100px" }}>Go To wazirX</button></a>
 
-                    <h1>Overall G/L</h1>
+                    <h2>Overall actual G/L</h2>
                     {
-                    ((sum/ num) < 0) ? <h1 style={{color:"whitesmoke",  textShadow:"2px 2px 8px red",backgroundColor:"grey"}}>{sum / num}%</h1> :
-                     <h1 style={{color:"whitesmoke",  textShadow:"2px 2px 8px green",backgroundColor:"grey"}}>{sum / num}%</h1>
-                     }
-
-
+                        ((sum) < 0) ? <p style={{ color: "whitesmoke", textShadow: "2px 2px 8px red", backgroundColor: "grey",fontSize:"1.8em"}}> {sum}%</p> :
+                            <p style={{ color: "whitesmoke", textShadow: "2px 2px 8px green", backgroundColor: "grey",fontSize:"1.8em" }}>{sum}%</p>
+                    }
+                    
+                
+                    {fetcher}
 
 
                 </div>
