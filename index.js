@@ -75,7 +75,6 @@ app.get("/filldata", (req, res) => {
   
         res.send({msg:"Some Error has occured --- Try again"});
       } else {
-
         res.send({msg:"Successfully added  --- Add new one"});
       }
     });
@@ -88,10 +87,10 @@ app.get("/getd", (req, res) => {             //Data inside database
     if (foundItems.length === 0) {
       res.send({ code: 0 });
     } else {
-       console.log(foundItems);
+     
       res.send({ code: 1, foundItems });
     }
-  });
+  }).sort({ AtValue: -1 }).exec(function(err, docs) { });
 
 })
 
@@ -122,7 +121,7 @@ app.get("/delData", (req, res) => {  //deleting data from database
 
 app.get('/getNames',(req,res)=>{
  
- console.log("Got request");
+ 
    async function fetchData() {             //for options in adding coins
           const response = await fetch("https://api.wazirx.com/api/v2/market-status");
           response
@@ -137,7 +136,7 @@ app.get('/getNames',(req,res)=>{
   });
   app.get('/getcurr',(req,res)=>{                        //for current prices 
  
-    console.log("Got request");
+
       async function fetchData() {
              const response = await fetch("https://api.wazirx.com/api/v2/tickers");
              response

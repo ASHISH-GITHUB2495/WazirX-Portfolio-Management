@@ -73,10 +73,13 @@ function Homepage() {
                     const got = data.foundItems;
 
                     got.forEach((item) => {
+
+                       if(curr.hasOwnProperty(item.coin_name)){
                         sum1=eval(sum1 + (item.AtValue*item.volume));
                         num=parseFloat(curr[item.coin_name].sell);
                         sum2=eval(sum2 + (num*item.volume));
-                        
+               
+                        }
                        
                       });
                       var per =(((sum2-sum1)/sum1)*100);
