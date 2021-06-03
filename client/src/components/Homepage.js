@@ -27,15 +27,14 @@ function Homepage() {
     const [status1, updateStatus1] = React.useState("----Add your new coin---");
     const [allow, updateAllow] = React.useState(false);
     const [allow2, updateAllow2] = React.useState(false);
-    var [sum, updatesum] = React.useState(0);
-    var [num, updatenum] = React.useState(0);
+    var [oval, updatesoval] = React.useState("...loading...");
     const[fetcher,updatefetcher] = React.useState("Not Fetched");
 
 
 
 
     async function fetchData() {                 //only for select options for adding coin
-        console.log("Requesting data");
+        
         const res = await fetch("/getNames");
         res
             .json()
@@ -49,7 +48,7 @@ function Homepage() {
 
 
     async function fetchDatabase() {             //for data inside database
-        console.log("Requesting data2");
+        
         const res = await fetch("/getd");
         res
             .json()
@@ -60,18 +59,37 @@ function Homepage() {
             });
     }
     async function fetchCurrent() {             //for current value of all coins
-        console.log("Requesting data3");
+        
         const res = await fetch("/getcurr");
         res
             .json()
             .then((res) => {
                 updateCurrent(res);
                 updateAllow2(true);
-                updatesum(0);
-                updatenum(0);
+                var sum1=0;var sum2=0;
+                var num = 0;
+                
+                if(allow == true){
+                    const got = data.foundItems;
+
+                    got.forEach((item) => {
+                        sum1=eval(sum1 + (item.AtValue*item.volume));
+                        num=parseFloat(curr[item.coin_name].sell);
+                        sum2=eval(sum2 + (num*item.volume));
+                        
+                       
+                      });
+                      var per =(((sum2-sum1)/sum1)*100);
+                      per= per.toFixed(2);
+                 
+                    updatesoval(per);
+
+                }
+  
+
+                
                 updatefetcher("Fetched");
-                // updateRefreshed(true);
-                //  console.log(res."btcinr");
+              
             });
     }
     async function delData(date, time) {             //for current value of all coins
@@ -82,6 +100,7 @@ function Homepage() {
             .then((res) => {
                 console.log(res.code);
                 fetchDatabase();
+               
             });
     }
 
@@ -151,7 +170,7 @@ function Homepage() {
 
 
             fillData(name1, value1, vol1);
-            console.log(name1 + " " + vol1 + " " + value1);
+           
 
         } else {
             updateStatus1("Please fill Data Correctly --- And try again");
@@ -163,7 +182,7 @@ function Homepage() {
         if (name2 != null && vol2 > 0 && value2 > 0) {
 
             fillData(name2, value2, vol2);
-            console.log(name2 + " " + vol2 + " " + value2);
+          
 
         } else {
             updateStatus1("Please fill Data Correctly --- And try again");
@@ -178,7 +197,7 @@ function Homepage() {
         var name;
         var coin;
         var currPrice; var boughtValue; var pnl; var per; var currval;
-        console.log(data.coin_name.charAt(data.coin_name.length - 1));
+        
         if (data.coin_name.charAt(data.coin_name.length - 1) === 'r') {
             var sym = '₹'; name = find.substring(0, find.length - 3)
         }
@@ -202,10 +221,7 @@ function Homepage() {
             pnl = pnl.toFixed(2);
             boughtValue = boughtValue.toFixed(2);
             currval = currval.toFixed(2);
-            num = num + 1;
-
-            sum += parseFloat(per);
-            sum /= num;
+     
         
            
 
@@ -362,8 +378,8 @@ function Homepage() {
 
                     <h2>Overall actual G/L</h2>
                     {
-                        ((sum) < 0) ? <p style={{ color: "whitesmoke", textShadow: "2px 2px 8px red", backgroundColor: "grey",fontSize:"1.8em"}}> {sum}%</p> :
-                            <p style={{ color: "whitesmoke", textShadow: "2px 2px 8px green", backgroundColor: "grey",fontSize:"1.8em" }}>{sum}%</p>
+                        ((oval) < 0) ? <p style={{ color: "whitesmoke", textShadow: "2px 2px 8px red", backgroundColor: "grey",fontSize:"1.8em"}}> {oval}%</p> :
+                            <p style={{ color: "whitesmoke", textShadow: "2px 2px 8px green", backgroundColor: "grey",fontSize:"1.8em" }}>{oval}%</p>
                     }
                     
                 

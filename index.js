@@ -128,7 +128,7 @@ app.get('/getNames',(req,res)=>{
           response
             .json()
             .then((response) => {
-             console.log(response);
+        
              res.send(response);
      
           });
@@ -143,7 +143,7 @@ app.get('/getNames',(req,res)=>{
              response
                .json()
                .then((response) => {
-                console.log(response);
+            
                 res.send(response);
         
              });
