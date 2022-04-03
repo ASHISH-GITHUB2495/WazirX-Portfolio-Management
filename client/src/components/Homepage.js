@@ -22,6 +22,7 @@ function Homepage() {
     const [name2, updatename2] = React.useState(null);
     const [value2, updatevalue2] = React.useState(null);
     const [vol2, updatevol2] = React.useState(null);
+    const[usdtinr,updateusdtinr] = React.useState(null);
 
     //acknolegement about adding
     const [status1, updateStatus1] = React.useState("----Add your new coin---");
@@ -65,12 +66,14 @@ function Homepage() {
             .json()
             .then((res) => {
                 updateCurrent(res);
+                updateusdtinr(res.usdtinr.buy);/////////////////////////////////////////////////////////////////////////-----------------
                 updateAllow2(true);
                 var sum1=0;var sum2=0;
                 var num = 0;
                 
                 if(allow == true){
                     const got = data.foundItems;
+
 
                     got.forEach((item) => {
 
@@ -101,7 +104,7 @@ function Homepage() {
         res
             .json()
             .then((res) => {
-                console.log(res.code);
+               
                 fetchDatabase();
                
             });
@@ -200,13 +203,14 @@ function Homepage() {
         var name;
         var coin;
         var currPrice; var boughtValue; var pnl; var per; var currval;
+        var sym;
         
         if (data.coin_name.charAt(data.coin_name.length - 1) === 'r') {
-            var sym = '₹'; name = find.substring(0, find.length - 3)
+             sym = '₹'; name = find.substring(0, find.length - 3)
         }
         else {
             name = find.substring(0, find.length - 4);
-            var sym = '$';
+             sym = '$';
         }
 
         name = name.toUpperCase();
@@ -224,6 +228,7 @@ function Homepage() {
             pnl = pnl.toFixed(2);
             boughtValue = boughtValue.toFixed(2);
             currval = currval.toFixed(2);
+
      
         
            
@@ -241,15 +246,34 @@ function Homepage() {
 
         if (pnl < 0) {
             return <tr id="dataRow" style={{ backgroundColor: "red", color: "white" }}>
-                <th>{name}</th>
-                <td>{data.date + " " + data.time}</td>
-                <td>{sym}{data.AtValue}</td>
+               <th>{name}</th>
+                <td>{data.date + " " + data.time}</td> 
+                {
+                 (sym==='$')? <td>{sym}{data.AtValue}<br/>
+                <k style={{borderColor:"white",border:"2px solid white"}}>₹{(data.AtValue * usdtinr).toFixed(2)}</k></td> :
+                <td>{sym}{data.AtValue}</td>}
+               
                 <td>{data.volume}</td>
-                <td>{sym}{currPrice}</td>
-                <td>{sym}{boughtValue}</td>
-                <td>{sym}{currval}</td>
-                <td>{sym}{pnl}</td>
+                 {
+                 (sym==='$')? <td>{sym}{currPrice}<br/>
+                <k style={{borderColor:"white",border:"2px solid white"}}>₹{(currPrice * usdtinr).toFixed(2)}</k></td> :
+                <td>{sym}{currPrice}</td> }
+                {
+                 (sym==='$')? <td>{sym}{boughtValue}<br/>
+                <k style={{borderColor:"white",border:"2px solid white"}}>₹{(boughtValue * usdtinr).toFixed(2)}</k></td> :
+                <td>{sym}{boughtValue}</td>}
+                {
+                 (sym==='$')? <td>{sym}{currval}<br/>
+                <k style={{borderColor:"white",border:"2px solid white"}}>₹{(currval * usdtinr).toFixed(2)}</k></td> :
+                <td>{sym}{currval}</td>}
+                {
+                 (sym==='$')? <td>{sym}{pnl}<br/>
+                <k style={{borderColor:"white",border:"2px solid white"}}>₹{(pnl * usdtinr).toFixed(2)}</k></td> :
+                 <td>{sym}{pnl}</td>
+                 }
+
                 <td>{per}%</td>
+
 
                 <td>
                     <button class="btn bg-transparent" style={{ color: "white", borderColor: "white" }} onClick={() => { delData(data.date, data.time); }}>  <i class="fa fa-trash" aria-hidden="true"></i> </button>
@@ -258,13 +282,31 @@ function Homepage() {
         } else {
             return <tr id="dataRow" style={{ backgroundColor: "green", color: "white" }}>
                 <th>{name}</th>
-                <td>{data.date + " " + data.time}</td>
-                <td>{sym}{data.AtValue}</td>
+                <td>{data.date + " " + data.time}</td> 
+                {
+                 (sym==='$')? <td>{sym}{data.AtValue}<br/>
+                <k style={{borderColor:"white",border:"2px solid white"}}>₹{(data.AtValue * usdtinr).toFixed(2)}</k></td> :
+                <td>{sym}{data.AtValue}</td>}
+               
                 <td>{data.volume}</td>
-                <td>{sym}{currPrice}</td>
-                <td>{sym}{boughtValue}</td>
-                <td>{sym}{currval}</td>
-                <td>{sym}{pnl}</td>
+                 {
+                 (sym==='$')? <td>{sym}{currPrice}<br/>
+                <k style={{borderColor:"white",border:"2px solid white"}}>₹{(currPrice * usdtinr).toFixed(2)}</k></td> :
+                <td>{sym}{currPrice}</td> }
+                {
+                 (sym==='$')? <td>{sym}{boughtValue}<br/>
+                <k style={{borderColor:"white",border:"2px solid white"}}>₹{(boughtValue * usdtinr).toFixed(2)}</k></td> :
+                <td>{sym}{boughtValue}</td>}
+                {
+                 (sym==='$')? <td>{sym}{currval}<br/>
+                <k style={{borderColor:"white",border:"2px solid white"}}>₹{(currval * usdtinr).toFixed(2)}</k></td> :
+                <td>{sym}{currval}</td>}
+                {
+                 (sym==='$')? <td>{sym}{pnl}<br/>
+                <k style={{borderColor:"white",border:"2px solid white"}}>₹{(pnl * usdtinr).toFixed(2)}</k></td> :
+                 <td>{sym}{pnl}</td>
+                 }
+
                 <td>{per}%</td>
 
                 <td>
